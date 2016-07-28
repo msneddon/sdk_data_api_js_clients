@@ -242,7 +242,7 @@ class GenomeAnnotationAPI(object):
     def get_cds_by_gene(self, ref, gene_id_list, context=None):
         """
         Retrieves coding sequence Features (cds) for given gene Feature IDs.
-        @param feature_id_list List of gene Feature IDS for which to retrieve CDS.
+        @param gene_id_list List of gene Feature IDS for which to retrieve CDS.
             If empty, returns data for all features.
         @return Mapping of gene Feature IDs to a list of CDS Feature IDs.
         :param ref: instance of type "ObjectReference"
@@ -256,7 +256,7 @@ class GenomeAnnotationAPI(object):
     def get_cds_by_mrna(self, ref, mrna_id_list, context=None):
         """
         Retrieves coding sequence (cds) Feature IDs for given mRNA Feature IDs.
-        @param feature_id_list List of mRNA Feature IDS for which to retrieve CDS.
+        @param mrna_id_list List of mRNA Feature IDS for which to retrieve CDS.
             If empty, returns data for all features.
         @return Mapping of mRNA Feature IDs to a list of CDS Feature IDs.
         :param ref: instance of type "ObjectReference"
@@ -270,7 +270,7 @@ class GenomeAnnotationAPI(object):
     def get_gene_by_cds(self, ref, cds_id_list, context=None):
         """
         Retrieves gene Feature IDs for given coding sequence (cds) Feature IDs.
-        @param feature_id_list List of cds Feature IDS for which to retrieve gene IDs.
+        @param cds_id_list List of cds Feature IDS for which to retrieve gene IDs.
             If empty, returns all cds/gene mappings.
         @return Mapping of cds Feature IDs to gene Feature IDs.
         :param ref: instance of type "ObjectReference"
@@ -284,7 +284,7 @@ class GenomeAnnotationAPI(object):
     def get_gene_by_mrna(self, ref, mrna_id_list, context=None):
         """
         Retrieves gene Feature IDs for given mRNA Feature IDs.
-        @param feature_id_list List of mRNA Feature IDS for which to retrieve gene IDs.
+        @param mrna_id_list List of mRNA Feature IDS for which to retrieve gene IDs.
             If empty, returns all mRNA/gene mappings.
         @return Mapping of mRNA Feature IDs to gene Feature IDs.
         :param ref: instance of type "ObjectReference"
@@ -298,7 +298,7 @@ class GenomeAnnotationAPI(object):
     def get_mrna_by_cds(self, ref, cds_id_list, context=None):
         """
         Retrieves mRNA Features for given coding sequences (cds) Feature IDs.
-        @param feature_id_list List of cds Feature IDS for which to retrieve mRNA IDs.
+        @param cds_id_list List of cds Feature IDS for which to retrieve mRNA IDs.
             If empty, returns all cds/mRNA mappings.
         @return Mapping of cds Feature IDs to mRNA Feature IDs.
         :param ref: instance of type "ObjectReference"
@@ -312,7 +312,7 @@ class GenomeAnnotationAPI(object):
     def get_mrna_by_gene(self, ref, gene_id_list, context=None):
         """
         Retrieve the mRNA IDs for given gene IDs.
-        @param feature_id_list List of gene Feature IDS for which to retrieve mRNA IDs.
+        @param gene_id_list List of gene Feature IDS for which to retrieve mRNA IDs.
             If empty, returns all gene/mRNA mappings.
         @return Mapping of gene Feature IDs to a list of mRNA Feature IDs.
         :param ref: instance of type "ObjectReference"
@@ -326,7 +326,7 @@ class GenomeAnnotationAPI(object):
     def get_mrna_exons(self, ref, mrna_id_list, context=None):
         """
         Retrieve Exon information for each mRNA ID.
-        @param feature_id_list List of mRNA Feature IDS for which to retrieve exons.
+        @param mrna_id_list List of mRNA Feature IDS for which to retrieve exons.
             If empty, returns data for all exons.
         @return Mapping of mRNA Feature IDs to a list of exons (:js:data:`Exon_data`).
         :param ref: instance of type "ObjectReference"
@@ -370,6 +370,40 @@ class GenomeAnnotationAPI(object):
         return self._client.call_method(
             'GenomeAnnotationAPI.get_mrna_utrs',
             [ref, mrna_id_list], self._service_ver, context)
+
+    def get_summary(self, ref, context=None):
+        """
+        Retrieve a summary representation of this GenomeAnnotation.
+        @return summary data
+        :param ref: instance of type "ObjectReference"
+        :returns: instance of type "Summary_data" -> structure: parameter
+           "scientific_name" of String, parameter "taxonomy_id" of Long,
+           parameter "kingdom" of String, parameter "scientific_lineage" of
+           list of String, parameter "genetic_code" of Long, parameter
+           "organism_aliases" of list of String, parameter "assembly_source"
+           of String, parameter "assembly_source_id" of String, parameter
+           "assembly_source_date" of String, parameter "gc_content" of
+           Double, parameter "dna_size" of Long, parameter "num_contigs" of
+           Long, parameter "contig_ids" of list of String, parameter
+           "external_source" of String, parameter "external_source_date" of
+           String, parameter "release" of String, parameter
+           "original_source_filename" of String, parameter
+           "feature_type_counts" of mapping from String to Long
+        """
+        return self._client.call_method(
+            'GenomeAnnotationAPI.get_summary',
+            [ref], self._service_ver, context)
+
+    def save_summary(self, ref, context=None):
+        """
+        Retrieve a summary representation of this GenomeAnnotation.
+        @return summary data
+        :param ref: instance of type "ObjectReference"
+        :returns: instance of Long
+        """
+        return self._client.call_method(
+            'GenomeAnnotationAPI.save_summary',
+            [ref], self._service_ver, context)
 
     def status(self, context=None):
         return self._client.call_method('GenomeAnnotationAPI.status',
