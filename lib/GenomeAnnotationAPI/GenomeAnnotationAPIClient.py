@@ -405,6 +405,33 @@ class GenomeAnnotationAPI(object):
             'GenomeAnnotationAPI.save_summary',
             [ref], self._service_ver, context)
 
+    def get_feature_info_hack_for_widget(self, params, context=None):
+        """
+        does not work for old genome types!  only a hack for testing widgets in the Narrative
+        for new GenomeAnnotation objects
+        :param params: instance of type "GetFeatureInfoHack" (type is the
+           list of types requested.  if null or empty, all types are
+           returned) -> structure: parameter "ref" of type "ObjectReference",
+           parameter "types" of list of String
+        :returns: instance of type "GetFeatureInfoHackResult" -> structure:
+           parameter "features" of list of type "Feature_data" -> structure:
+           parameter "feature_id" of String, parameter "feature_type" of
+           String, parameter "feature_function" of String, parameter
+           "feature_aliases" of mapping from String to list of String,
+           parameter "feature_dna_sequence_length" of Long, parameter
+           "feature_dna_sequence" of String, parameter "feature_md5" of
+           String, parameter "feature_locations" of list of type "Region" ->
+           structure: parameter "contig_id" of String, parameter "strand" of
+           String, parameter "start" of Long, parameter "length" of Long,
+           parameter "feature_publications" of list of String, parameter
+           "feature_quality_warnings" of list of String, parameter
+           "feature_quality_score" of list of String, parameter
+           "feature_notes" of String, parameter "feature_inference" of String
+        """
+        return self._client.call_method(
+            'GenomeAnnotationAPI.get_feature_info_hack_for_widget',
+            [params], self._service_ver, context)
+
     def status(self, context=None):
         return self._client.call_method('GenomeAnnotationAPI.status',
-            [], self._service_ver, context)
+                                        [], self._service_ver, context)
