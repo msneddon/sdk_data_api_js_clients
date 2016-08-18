@@ -186,9 +186,9 @@ class GenomeAnnotationAPI(object):
         :returns: instance of mapping from String to type "Protein_data" ->
            structure: parameter "protein_id" of String, parameter
            "protein_amino_acid_sequence" of String, parameter
-           "protein_function" of String, parameter "protein_aliases" of list
-           of String, parameter "protein_md5" of String, parameter
-           "protein_domain_locations" of list of String
+           "protein_function" of String, parameter "protein_aliases" of
+           mapping from String to list of String, parameter "protein_md5" of
+           String, parameter "protein_domain_locations" of list of String
         """
         return self._client.call_method(
             'GenomeAnnotationAPI.get_proteins',
@@ -413,6 +413,92 @@ class GenomeAnnotationAPI(object):
         return self._client.call_method(
             'GenomeAnnotationAPI.save_summary',
             [inputs_save_summary], self._service_ver, context)
+
+    def get_combined_data(self, params, context=None):
+        """
+        Retrieve any part of GenomeAnnotation. Please don't use this method in full mode (with all parts included) in cases
+        of large eukaryotic datasets. It may lead to out-of-memory errors.
+        :param params: instance of type "GetCombinedDataParams" (* Retrieve
+           any part of GenomeAnnotation. * Any of exclude_genes,
+           include_mrnas and exclude_cdss flags override values listed in
+           include_features_by_type.) -> structure: parameter "ref" of type
+           "ObjectReference", parameter "exclude_genes" of type "boolean" (A
+           boolean - 0 for false, 1 for true. @range (0, 1)), parameter
+           "include_mrnas" of type "boolean" (A boolean - 0 for false, 1 for
+           true. @range (0, 1)), parameter "exclude_cdss" of type "boolean"
+           (A boolean - 0 for false, 1 for true. @range (0, 1)), parameter
+           "include_features_by_type" of list of String, parameter
+           "exclude_protein_by_cds_id" of type "boolean" (A boolean - 0 for
+           false, 1 for true. @range (0, 1)), parameter
+           "include_mrna_ids_by_gene_id" of type "boolean" (A boolean - 0 for
+           false, 1 for true. @range (0, 1)), parameter
+           "exclude_cds_ids_by_gene_id" of type "boolean" (A boolean - 0 for
+           false, 1 for true. @range (0, 1)), parameter
+           "include_cds_id_by_mrna_id" of type "boolean" (A boolean - 0 for
+           false, 1 for true. @range (0, 1)), parameter
+           "include_exons_by_mrna_id" of type "boolean" (A boolean - 0 for
+           false, 1 for true. @range (0, 1)), parameter
+           "include_utr_by_utr_type_by_mrna_id" of type "boolean" (A boolean
+           - 0 for false, 1 for true. @range (0, 1)), parameter
+           "exclude_summary" of type "boolean" (A boolean - 0 for false, 1
+           for true. @range (0, 1))
+        :returns: instance of type "GenomeAnnotation_data" (gene_id is a
+           feature id of a gene feature. mrna_id is a feature id of a mrna
+           feature. cds_id is a feature id of a cds feature.) -> structure:
+           parameter "gene_type" of String, parameter "mrna_type" of String,
+           parameter "cds_type" of String, parameter "feature_types" of list
+           of String, parameter "feature_by_id_by_type" of mapping from
+           String to mapping from String to type "Feature_data" -> structure:
+           parameter "feature_id" of String, parameter "feature_type" of
+           String, parameter "feature_function" of String, parameter
+           "feature_aliases" of mapping from String to list of String,
+           parameter "feature_dna_sequence_length" of Long, parameter
+           "feature_dna_sequence" of String, parameter "feature_md5" of
+           String, parameter "feature_locations" of list of type "Region" ->
+           structure: parameter "contig_id" of String, parameter "strand" of
+           String, parameter "start" of Long, parameter "length" of Long,
+           parameter "feature_publications" of list of String, parameter
+           "feature_quality_warnings" of list of String, parameter
+           "feature_quality_score" of list of String, parameter
+           "feature_notes" of String, parameter "feature_inference" of
+           String, parameter "protein_by_cds_id" of mapping from String to
+           type "Protein_data" -> structure: parameter "protein_id" of
+           String, parameter "protein_amino_acid_sequence" of String,
+           parameter "protein_function" of String, parameter
+           "protein_aliases" of mapping from String to list of String,
+           parameter "protein_md5" of String, parameter
+           "protein_domain_locations" of list of String, parameter
+           "mrna_ids_by_gene_id" of mapping from String to list of String,
+           parameter "cds_ids_by_gene_id" of mapping from String to list of
+           String, parameter "cds_id_by_mrna_id" of mapping from String to
+           String, parameter "exons_by_mrna_id" of mapping from String to
+           list of type "Exon_data" -> structure: parameter "exon_location"
+           of type "Region" -> structure: parameter "contig_id" of String,
+           parameter "strand" of String, parameter "start" of Long, parameter
+           "length" of Long, parameter "exon_dna_sequence" of String,
+           parameter "exon_ordinal" of Long, parameter
+           "utr_by_utr_type_by_mrna_id" of mapping from String to mapping
+           from String to type "UTR_data" -> structure: parameter
+           "utr_locations" of list of type "Region" -> structure: parameter
+           "contig_id" of String, parameter "strand" of String, parameter
+           "start" of Long, parameter "length" of Long, parameter
+           "utr_dna_sequence" of String, parameter "summary" of type
+           "Summary_data" -> structure: parameter "scientific_name" of
+           String, parameter "taxonomy_id" of Long, parameter "kingdom" of
+           String, parameter "scientific_lineage" of list of String,
+           parameter "genetic_code" of Long, parameter "organism_aliases" of
+           list of String, parameter "assembly_source" of String, parameter
+           "assembly_source_id" of String, parameter "assembly_source_date"
+           of String, parameter "gc_content" of Double, parameter "dna_size"
+           of Long, parameter "num_contigs" of Long, parameter "contig_ids"
+           of list of String, parameter "external_source" of String,
+           parameter "external_source_date" of String, parameter "release" of
+           String, parameter "original_source_filename" of String, parameter
+           "feature_type_counts" of mapping from String to Long
+        """
+        return self._client.call_method(
+            'GenomeAnnotationAPI.get_combined_data',
+            [params], self._service_ver, context)
 
     def status(self, context=None):
         return self._client.call_method('GenomeAnnotationAPI.status',
