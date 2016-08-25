@@ -244,6 +244,48 @@ class TaxonAPI(object):
             'TaxonAPI.get_version',
             [ref], self._service_ver, context)
 
+    def get_all_data(self, params, context=None):
+        """
+        :param params: instance of type "GetAllDataParams" -> structure:
+           parameter "ref" of type "ObjectReference", parameter
+           "include_decorated_scientific_lineage" of type "boolean" (A
+           boolean. 0 = false, other = true.)
+        :returns: instance of type "TaxonData" -> structure: parameter
+           "parent" of type "ObjectReference", parameter "children" of list
+           of type "ObjectReference", parameter "scientific_lineage" of list
+           of String, parameter "decorated_scientific_lineage" of list of
+           String, parameter "scientific_name" of String, parameter
+           "taxonomic_id" of Long, parameter "kingdom" of String, parameter
+           "domain" of String, parameter "genetic_code" of Long, parameter
+           "aliases" of list of String, parameter "obj_info" of type
+           "ObjectInfo" (* @skip documentation) -> structure: parameter
+           "object_id" of Long, parameter "object_name" of String, parameter
+           "object_reference" of String, parameter
+           "object_reference_versioned" of String, parameter "type_string" of
+           String, parameter "save_date" of String, parameter "version" of
+           Long, parameter "saved_by" of String, parameter "workspace_id" of
+           Long, parameter "workspace_name" of String, parameter
+           "object_checksum" of String, parameter "object_size" of Long,
+           parameter "object_metadata" of mapping from String to String
+        """
+        return self._client.call_method(
+            'TaxonAPI.get_all_data',
+            [params], self._service_ver, context)
+
+    def get_decorated_scientific_lineage(self, params, context=None):
+        """
+        :param params: instance of type "GetDecoratedScientificLineageParams"
+           -> structure: parameter "ref" of type "ObjectReference"
+        :returns: instance of type "DecoratedScientificLineage" (list starts
+           at parent of this, and goes on up to root) -> structure: parameter
+           "decorated_scientific_lineage" of list of type "TaxonInfo" ->
+           structure: parameter "ref" of type "ObjectReference", parameter
+           "scientific_name" of String
+        """
+        return self._client.call_method(
+            'TaxonAPI.get_decorated_scientific_lineage',
+            [params], self._service_ver, context)
+
     def status(self, context=None):
         return self._client.call_method('TaxonAPI.status',
                                         [], self._service_ver, context)
